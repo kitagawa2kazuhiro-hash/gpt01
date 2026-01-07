@@ -5,6 +5,7 @@ Private Sub UserForm_Initialize()
         .AddItem "－"
         .AddItem "×"
         .AddItem "÷"
+        .AddItem "3乗"
         .ListIndex = 0 ' 初期値を「＋」に設定
     End With
 End Sub
@@ -15,13 +16,20 @@ Private Sub CommandButton1_Click()
     Dim result As Double
 
     ' 入力値が数値かチェック
-    If Not IsNumeric(TextBox1.Value) Or Not IsNumeric(TextBox2.Value) Then
-        MsgBox "数値を入力してください"
-        Exit Sub
+    If ComboBox1.Value = "3乗" Then
+        If Not IsNumeric(TextBox1.Value) Then
+            MsgBox "数値を入力してください"
+            Exit Sub
+        End If
+        num1 = CDbl(TextBox1.Value)
+    Else
+        If Not IsNumeric(TextBox1.Value) Or Not IsNumeric(TextBox2.Value) Then
+            MsgBox "数値を入力してください"
+            Exit Sub
+        End If
+        num1 = CDbl(TextBox1.Value)
+        num2 = CDbl(TextBox2.Value)
     End If
-
-    num1 = CDbl(TextBox1.Value)
-    num2 = CDbl(TextBox2.Value)
 
     ' 選択された演算子によって処理を分岐
     Select Case ComboBox1.Value
@@ -34,10 +42,10 @@ Private Sub CommandButton1_Click()
                 Exit Sub
             End If
             result = num1 / num2
+        Case "3乗": result = num1 ^ 3
     End Select
 
     ' ラベルに結果を表示
     Label1.Caption = "結果: " & result
 End Sub
-
 
