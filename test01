@@ -1,1 +1,43 @@
+' フォームが開くときにコンボボックスに記号をセット
+Private Sub UserForm_Initialize()
+    With ComboBox1
+        .AddItem "＋"
+        .AddItem "－"
+        .AddItem "×"
+        .AddItem "÷"
+        .ListIndex = 0 ' 初期値を「＋」に設定
+    End With
+End Sub
+
+' 計算ボタンが押された時の処理
+Private Sub CommandButton1_Click()
+    Dim num1 As Double, num2 As Double
+    Dim result As Double
+
+    ' 入力値が数値かチェック
+    If Not IsNumeric(TextBox1.Value) Or Not IsNumeric(TextBox2.Value) Then
+        MsgBox "数値を入力してください"
+        Exit Sub
+    End If
+
+    num1 = CDbl(TextBox1.Value)
+    num2 = CDbl(TextBox2.Value)
+
+    ' 選択された演算子によって処理を分岐
+    Select Case ComboBox1.Value
+        Case "＋": result = num1 + num2
+        Case "－": result = num1 - num2
+        Case "×": result = num1 * num2
+        Case "÷"
+            If num2 = 0 Then
+                MsgBox "0で割ることはできません"
+                Exit Sub
+            End If
+            result = num1 / num2
+    End Select
+
+    ' ラベルに結果を表示
+    Label1.Caption = "結果: " & result
+End Sub
+
 
